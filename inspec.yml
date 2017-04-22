@@ -1,0 +1,14 @@
+name: chef-alfresco-inspec-tomcat
+title: InSpec Profile for chef-alfresco tomcat
+maintainer: Alfresco Software
+copyright: Alfresco Software
+copyright_email: devops@alfresco.com
+license: Apache 2 license
+summary: An InSpec Compliance Profile
+version: 0.1.0
+supports:
+  - os-family: redhat
+depends:
+- name: utils
+  git: https://github.com/Alfresco/chef-alfresco-inspec-utils
+  branch: master
