@@ -1,6 +1,6 @@
 control 'Tomcat installation single' do
   impact 0.7
-  title 'Tomcat installation multi'
+  title 'Tomcat installation single'
   desc 'Checks that templates have been correctly created'
   only_if { node.content.appserver.run_single_instance == true }
 
