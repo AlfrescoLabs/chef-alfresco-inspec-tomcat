@@ -2,7 +2,7 @@ only_if do
   node.content.appserver.run_single_instance
 end
 
-control 'templates\-existance' do
+control 'Tomcat installation multi' do
   impact 0.7
   title 'Templates Existance'
   desc 'Checks that templates have been correctly created'
