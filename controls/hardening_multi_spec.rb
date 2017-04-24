@@ -2,7 +2,7 @@ control 'Tomcat Hardening Multi Instance' do
   impact 0.7
   title 'Tomcat Hardening Multi Instance'
   desc 'Following CIS_Apache_Tomcat_7_Benchmark_v1.1.0.pdf'
-  only_if { node.content.appserver.run_single_instance == false }
+  only_if { !node.content.appserver.run_single_instance }
 
   catalina_home = node.content.appserver.alfresco.home
 
