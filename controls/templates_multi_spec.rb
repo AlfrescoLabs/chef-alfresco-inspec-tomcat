@@ -1,13 +1,10 @@
-only_if do
-  !node.content.appserver.run_single_instance
-end
-
-control 'templates-existance Multi Instance' do
+control 'Templates Existance Multi Instance' do
   impact 0.7
-  title 'Templates Existance'
+  title 'Templates Existance Multi Instance'
   desc 'Checks that templates have been correctly created'
+  only_if { !node.content['appserver']['run_single_instance'] }
 
-  catalina_home = node.content.appserver.alfresco.home
+  catalina_home = node.content['appserver']['alfresco']['home']
 
   components = node.content.appserver.alfresco.components
   if components.include?('repo')

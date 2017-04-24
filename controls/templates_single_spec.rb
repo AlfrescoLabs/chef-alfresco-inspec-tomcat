@@ -1,13 +1,10 @@
-only_if do
-  node.content.appserver.run_single_instance
-end
-
-control 'templates-existance Single Instance' do
+control 'Templates Existance Single Instance' do
   impact 0.7
-  title 'Templates Existance'
+  title 'Templates Existance Single Instance'
   desc 'Checks that templates have been correctly created'
+  only_if { node.content['appserver']['run_single_instance'] }
 
-  catalina_home = node.content.appserver.alfresco.home
+  catalina_home = node.content['appserver']['alfresco']['home']
 
   describe file('/etc/cron.d/alfresco-cleaner.cron') do
     it { should be_file }
