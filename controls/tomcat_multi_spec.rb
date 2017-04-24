@@ -2,9 +2,9 @@ control 'Tomcat installation multi' do
   impact 0.7
   title 'Tomcat installation multi'
   desc 'Checks that templates have been correctly created'
-  only_if { !node.content.appserver.run_single_instance }
+  only_if { !node.content['appserver']['run_single_instance'] }
 
-  catalina_home = node.content.appserver.alfresco.home
+  catalina_home = node.content['appserver']['alfresco']['home']
 
   components = node.content.appserver.alfresco.components
   if components.include?('repo')
