@@ -1,10 +1,11 @@
+puts node.content.appserver.run_single_instance
 only_if do
   node.content.appserver.run_single_instance
 end
 
 control 'Tomcat installation single' do
   impact 0.7
-  title 'Templates Existance'
+  title 'Tomcat installation multi'
   desc 'Checks that templates have been correctly created'
 
   catalina_home = node.content.appserver.alfresco.home
