@@ -3,7 +3,7 @@ control 'artifact-existance' do
   title 'Artifact Existance'
   desc 'Checks that artifacts have been correctly downloaded and moved'
 
-  catalina_home = node.content.appserver.alfresco.home
+  catalina_home = node['content']['appserver']['alfresco']['home']
 
   describe file("#{catalina_home}/lib/catalina-jmx.jar") do
     it { should exist }
