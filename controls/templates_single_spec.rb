@@ -1,6 +1,5 @@
-puts "node.content.appserver.run_single_instance:#{node.content.appserver.run_single_instance}"
 only_if do
-  node.content.appserver.run_single_instance
+  node.content.appserver.run_single_instance == true
 end
 
 control 'Templates Existance Single Instance' do

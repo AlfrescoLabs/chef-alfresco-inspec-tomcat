@@ -1,6 +1,5 @@
-puts "node.content.appserver.run_single_instance:#{node.content.appserver.run_single_instance}"
 only_if do
-  node.content.appserver.run_single_instance
+  node.content.appserver.run_single_instance == false
 end
 
 control 'Tomcat installation multi' do
