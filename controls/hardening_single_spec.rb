@@ -1,11 +1,8 @@
-only_if do
-  node.content.appserver.run_single_instance == true
-end
-
 control 'Tomcat Hardening Single Instance' do
   impact 0.7
   title 'Tomcat Hardening Single Instance'
   desc 'Following CIS_Apache_Tomcat_7_Benchmark_v1.1.0.pdf'
+  only_if { node.content.appserver.run_single_instance == true }
 
   catalina_home = node.content.appserver.alfresco.home
 
