@@ -46,7 +46,9 @@ control 'Templates Existance Single Instance' do
     it { should be_file }
     it { should exist }
     its('owner') { should eq 'tomcat' }
-    its('content') { should match 'secure=\"true\"' }
+    if node.content['tomcat']['ssl_enabled']
+      its('content') { should match 'secure=\"true\"' }
+    end
     its('content') { should match 'Connector port=\"8080\"' }
     its('content') { should_not match 'Connector port=\"8081\"' }
     its('content') { should_not match 'Connector port=\"8090\"' }

@@ -67,7 +67,9 @@ control 'Tomcat Hardening Multi Instance' do
       its('content') { should_not match 'allowTrace="true"' }
       its('content') { should_not match 'allowTrace="true"' }
       its('content') { should match '<Server port="-1"' }
-      its('content') { should match 'clientAuth="true' }
+      if node.content['tomcat']['ssl_enabled'] && node.content["tomcat"]["client_auth"]
+        its('content') { should match 'clientAuth="true' }
+      end
       its('content') { should match 'connectionTimeout="60000"' }
       its('content') { should match 'maxHttpHeaderSize="8192"' }
       its('content') { should match 'autoDeploy="false"' }

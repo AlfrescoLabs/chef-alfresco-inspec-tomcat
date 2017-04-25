@@ -69,7 +69,9 @@ control 'Templates Existance Multi Instance' do
       it { should be_file }
       it { should exist }
       its('owner') { should eq 'tomcat' }
-      its('content') { should match 'secure=\"true\"' }
+      if node.content['tomcat']['ssl_enabled']
+        its('content') { should match 'secure=\"true\"' }
+      end
       if component == 'alfresco'
         its('content') { should match 'Connector port=\"8070\"' }
         its('content') { should_not match 'Connector port=\"8081\"' }
