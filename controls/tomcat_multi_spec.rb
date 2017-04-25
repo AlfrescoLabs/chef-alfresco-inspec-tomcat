@@ -15,6 +15,7 @@ control 'Tomcat installation multi' do
       else
         components << app
       end
+    end
   end
 
   components.each do |component|

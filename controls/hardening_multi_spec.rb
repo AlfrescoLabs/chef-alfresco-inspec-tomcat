@@ -15,6 +15,7 @@ control 'Tomcat Hardening Multi Instance' do
       else
         components << app
       end
+    end
   end
 
   # 1.1 Remove extraneous files and directories

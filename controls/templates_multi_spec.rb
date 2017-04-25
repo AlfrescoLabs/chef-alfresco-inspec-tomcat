@@ -15,6 +15,7 @@ control 'Templates Existance Multi Instance' do
       else
         components << app
       end
+    end
   end
 
   components.each do |component|
