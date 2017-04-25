@@ -5,11 +5,18 @@ control 'Templates Existance Multi Instance' do
   only_if { !node.content['appserver']['run_single_instance'] }
 
   catalina_home = node.content['appserver']['alfresco']['home']
+  ssl_enabled = node.content['tomcat']['ssl_enabled']
 
-  components = node.content.appserver.alfresco.components
-  if components.include?('repo')
-    index = components.index('repo')
-    components[index] = 'alfresco'
+  alf_components = node.content['appserver']['alfresco']['components']
+  components = []
+  %w(share solr repo).each do | app |
+    if alf_components.include?(app)
+      if app == 'repo'
+        components << 'alfresco'
+      else
+        components << app
+      end
+    end
   end
 
   components.each do |component|
@@ -63,7 +70,9 @@ control 'Templates Existance Multi Instance' do
       it { should be_file }
       it { should exist }
       its('owner') { should eq 'tomcat' }
-      its('content') { should match 'secure=\"true\"' }
+      if ssl_enabled
+        its('content') { should match 'secure=\"true\"' }
+      end
       if component == 'alfresco'
         its('content') { should match 'Connector port=\"8070\"' }
         its('content') { should_not match 'Connector port=\"8081\"' }
@@ -82,10 +91,12 @@ control 'Templates Existance Multi Instance' do
     end
   end
 
-  describe file("#{catalina_home}/share/conf/Catalina/localhost/share.xml") do
-    it { should be_file }
-    it { should exist }
-    its('owner') { should eq 'tomcat' }
+  if !node.content['tomcat']['memcached_nodes'].empty? && node.content['appserver']['alfresco']['components'].include?('share')
+    describe file("#{catalina_home}/share/conf/Catalina/localhost/share.xml") do
+      it { should be_file }
+      it { should exist }
+      its('owner') { should eq 'tomcat' }
+    end
   end
 
   describe file('/etc/security/limits.d/tomcat_limits.conf') do

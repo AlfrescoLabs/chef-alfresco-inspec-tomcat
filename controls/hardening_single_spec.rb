@@ -5,6 +5,8 @@ control 'Tomcat Hardening Single Instance' do
   only_if { node.content['appserver']['run_single_instance'] }
 
   catalina_home = node.content['appserver']['alfresco']['home']
+  ssl_enabled = node.content['tomcat']['ssl_enabled']
+  client_auth = node.content["tomcat"]["client_auth"]
 
   # 1.1 Remove extraneous files and directories
 
@@ -52,7 +54,9 @@ control 'Tomcat Hardening Single Instance' do
     its('content') { should_not match 'allowTrace="true"' }
     its('content') { should_not match 'allowTrace="true"' }
     its('content') { should match '<Server port="-1"' }
-    its('content') { should match 'clientAuth="true' }
+    if ssl_enabled && client_auth
+      its('content') { should match 'clientAuth="true' }
+    end
     its('content') { should match 'connectionTimeout="60000"' }
     its('content') { should match 'maxHttpHeaderSize="8192"' }
     its('content') { should match 'autoDeploy="false"' }

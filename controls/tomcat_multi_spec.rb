@@ -6,10 +6,16 @@ control 'Tomcat installation multi' do
 
   catalina_home = node.content['appserver']['alfresco']['home']
 
-  components = node.content.appserver.alfresco.components
-  if components.include?('repo')
-    index = components.index('repo')
-    components[index] = 'alfresco'
+  alf_components = node.content['appserver']['alfresco']['components']
+  components = []
+  %w(share solr repo).each do | app |
+    if alf_components.include?(app)
+      if app == 'repo'
+        components << 'alfresco'
+      else
+        components << app
+      end
+    end
   end
 
   components.each do |component|
@@ -55,7 +61,13 @@ control 'Tomcat installation multi' do
     end
   end
 
-  folders = ["#{catalina_home}/share/", "#{catalina_home}/solr/", "#{catalina_home}/alfresco/", "#{catalina_home}/conf/", "#{catalina_home}/lib/", "#{catalina_home}/bin/"]
+  folders = ["#{catalina_home}/conf/", "#{catalina_home}/lib/", "#{catalina_home}/bin/"]
+  %w(share solr alfresco).each do | app |
+    if components.include?(app)
+      folders << "#{catalina_home}/#{app}/"
+    end
+  end
+
   folders.each do |folder|
     describe directory(folder) do
       it { should exist }
