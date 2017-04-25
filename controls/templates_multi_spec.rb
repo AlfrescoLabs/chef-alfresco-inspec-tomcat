@@ -9,14 +9,13 @@ control 'Templates Existance Multi Instance' do
 
   alf_components = node.content['appserver']['alfresco']['components']
   components = []
-  %w(share solr repo).each do | app |
-    if alf_components.include?(app)
-      if app == 'repo'
-        components << 'alfresco'
-      else
-        components << app
-      end
-    end
+  %w(share solr repo).each do |app|
+    next unless alf_components.include?(app)
+    components << if app == 'repo'
+                    'alfresco'
+                  else
+                    app
+                  end
   end
 
   components.each do |component|
@@ -70,9 +69,7 @@ control 'Templates Existance Multi Instance' do
       it { should be_file }
       it { should exist }
       its('owner') { should eq 'tomcat' }
-      if ssl_enabled
-        its('content') { should match 'secure=\"true\"' }
-      end
+      its('content') { should match 'secure=\"true\"' } if ssl_enabled
       if component == 'alfresco'
         its('content') { should match 'Connector port=\"8070\"' }
         its('content') { should_not match 'Connector port=\"8081\"' }

@@ -8,14 +8,13 @@ control 'Tomcat installation multi' do
 
   alf_components = node.content['appserver']['alfresco']['components']
   components = []
-  %w(share solr repo).each do | app |
-    if alf_components.include?(app)
-      if app == 'repo'
-        components << 'alfresco'
-      else
-        components << app
-      end
-    end
+  %w(share solr repo).each do |app|
+    next unless alf_components.include?(app)
+    components << if app == 'repo'
+                    'alfresco'
+                  else
+                    app
+                  end
   end
 
   components.each do |component|
@@ -62,10 +61,8 @@ control 'Tomcat installation multi' do
   end
 
   folders = ["#{catalina_home}/conf/", "#{catalina_home}/lib/", "#{catalina_home}/bin/"]
-  %w(share solr alfresco).each do | app |
-    if components.include?(app)
-      folders << "#{catalina_home}/#{app}/"
-    end
+  %w(share solr alfresco).each do |app|
+    folders << "#{catalina_home}/#{app}/" if components.include?(app)
   end
 
   folders.each do |folder|

@@ -1,3 +1,14 @@
-# Example InSpec Profile
+# chef-alfresco-inspec-tomcat Inspec Profile
 
-This example shows the implementation of an InSpec [profile](../../docs/profiles.rst).
+Inspec profile for [chef-alfresco-appserver](https://github.com/Alfresco/chef-alfresco-appserver) cookbook
+
+To use it in your Kitchen suite add:
+
+```
+verifier:
+  inspec_tests:
+    - name: chef-alfresco-inspec-tomcat
+      git: https://github.com/Alfresco/chef-alfresco-inspec-tomcat
+```
+
+This Profile depends on [chef-alfresco-inspec-utils](https://github.com/Alfresco/chef-alfresco-inspec-utils) to import libraries and matchers

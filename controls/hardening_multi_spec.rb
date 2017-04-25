@@ -10,14 +10,13 @@ control 'Tomcat Hardening Multi Instance' do
 
   alf_components = node.content['appserver']['alfresco']['components']
   components = []
-  %w(share solr repo).each do | app |
-    if alf_components.include?(app)
-      if app == 'repo'
-        components << 'alfresco'
-      else
-        components << app
-      end
-    end
+  %w(share solr repo).each do |app|
+    next unless alf_components.include?(app)
+    components << if app == 'repo'
+                    'alfresco'
+                  else
+                    app
+                  end
   end
 
   # 1.1 Remove extraneous files and directories
