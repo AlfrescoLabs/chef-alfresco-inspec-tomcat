@@ -6,7 +6,7 @@ control 'Tomcat Hardening Multi Instance' do
 
   catalina_home = node.content['appserver']['alfresco']['home']
   ssl_enabled = node.content['tomcat']['ssl_enabled']
-  client_auth = node.content["tomcat"]["client_auth"]
+  client_auth = node.content['tomcat']['client_auth']
 
   alf_components = node.content['appserver']['alfresco']['components']
   components = []

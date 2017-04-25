@@ -55,10 +55,12 @@ control 'Templates Existance Single Instance' do
     its('content') { should_not match 'Connector port=\"8090\"' }
   end
 
-  describe file("#{catalina_home}/share/conf/Catalina/localhost/share.xml") do
-    it { should be_file }
-    it { should exist }
-    its('owner') { should eq 'tomcat' }
+  if !node.content['tomcat']['memcached_nodes'].empty? && node.content['appserver']['alfresco']['components'].include?('share')
+    describe file("#{catalina_home}/share/conf/Catalina/localhost/share.xml") do
+      it { should be_file }
+      it { should exist }
+      its('owner') { should eq 'tomcat' }
+    end
   end
 
   describe file('/etc/security/limits.d/tomcat_limits.conf') do
