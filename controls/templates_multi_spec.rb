@@ -5,6 +5,7 @@ control 'Templates Existance Multi Instance' do
   only_if { !node.content['appserver']['run_single_instance'] }
 
   catalina_home = node.content['appserver']['alfresco']['home']
+  ssl_enabled = node.content['tomcat']['ssl_enabled']
 
   alf_components = node.content['appserver']['alfresco']['components']
   components = []
@@ -69,7 +70,7 @@ control 'Templates Existance Multi Instance' do
       it { should be_file }
       it { should exist }
       its('owner') { should eq 'tomcat' }
-      if node.content['tomcat']['ssl_enabled']
+      if ssl_enabled
         its('content') { should match 'secure=\"true\"' }
       end
       if component == 'alfresco'

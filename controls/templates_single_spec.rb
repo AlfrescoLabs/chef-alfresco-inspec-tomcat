@@ -5,6 +5,7 @@ control 'Templates Existance Single Instance' do
   only_if { node.content['appserver']['run_single_instance'] }
 
   catalina_home = node.content['appserver']['alfresco']['home']
+  ssl_enabled = node.content['tomcat']['ssl_enabled']
 
   describe file('/etc/cron.d/alfresco-cleaner.cron') do
     it { should be_file }
@@ -46,7 +47,7 @@ control 'Templates Existance Single Instance' do
     it { should be_file }
     it { should exist }
     its('owner') { should eq 'tomcat' }
-    if node.content['tomcat']['ssl_enabled']
+    if ssl_enabled
       its('content') { should match 'secure=\"true\"' }
     end
     its('content') { should match 'Connector port=\"8080\"' }
