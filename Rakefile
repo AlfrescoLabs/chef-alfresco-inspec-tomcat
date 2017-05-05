@@ -1,11 +1,16 @@
 # !/usr/bin/env rake
-
-require 'foodcritic'
-require 'rspec/core/rake_task'
+require 'yamllint/rake_task'
 
 desc 'Runs cookstyle tests'
 task :cookstyle do
   sh 'chef exec bundle exec cookstyle'
 end
 
-task default: [:cookstyle]
+desc 'Runs yamllint checks'
+task :yamllint do
+  YamlLint::RakeTask.new do |t|
+    t.paths = %w( \.*\.y*ml )
+  end
+end
+
+task default: [:yamllint, :cookstyle]
