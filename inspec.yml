@@ -11,3 +11,4 @@ supports:
 depends:
 - name: utils
   git: https://github.com/Alfresco/chef-alfresco-inspec-utils
+  tag: v0.1
